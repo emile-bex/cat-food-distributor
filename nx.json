@@ -1,10 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -37,9 +34,8 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": [
-        "apps/cat-food-distributor-back-e2e/**/*"
-      ]
+      "exclude": ["apps/cat-food-distributor-back-e2e/**/*"]
     }
-  ]
+  ],
+  "nxCloudAccessToken": "ZDQ2ZjFlZWYtMjRhMi00M2Y1LThhYTktNzA4NzlkMDkxZDNmfHJlYWQtd3JpdGU="
 }
