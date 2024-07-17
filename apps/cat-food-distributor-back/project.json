@@ -1,0 +1,24 @@
+{
+  "name": "cat-food-distributor-back",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cat-food-distributor-back/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "cat-food-distributor-back:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "cat-food-distributor-back:build:development"
+        },
+        "production": {
+          "buildTarget": "cat-food-distributor-back:build:production"
+        }
+      }
+    }
+  }
+}
