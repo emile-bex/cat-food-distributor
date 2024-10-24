@@ -19,6 +19,33 @@
           "buildTarget": "cat-food-distributor-back:build:production"
         }
       }
+    },
+    "typeorm" : {
+      "command": "ts-node -r tsconfig-paths/register --project {projectRoot}/tsconfig.json ./node_modules/.bin/typeorm-ts-node-commonjs -d {projectRoot}/typeorm.config.ts"
+    },
+    "schema:sync": {
+      "command": "nx run cat-food-distributor-back:typeorm schema:sync"
+    },
+    "migration:generate": {
+      "command": "nx run cat-food-distributor-back:typeorm migration:generate {projectRoot}/src/migrations/schema-update"
+    },
+    "migration:create": {
+      "command": "nx run cat-food-distributor-back:typeorm migration:create {projectRoot}/src/migrations/schema-update"
+    },
+    "migration:show": {
+      "command": "nx run cat-food-distributor-back:typeorm migration:show"
+    },
+    "migration:run": {
+      "command": "nx run cat-food-distributor-back:typeorm migration:run"
+    },
+    "migration:revert": {
+      "command": "nx run cat-food-distributor-back:typeorm migration:revert"
+    },
+    "cache:clear": {
+      "command": "nx run cat-food-distributor-back:typeorm cache:clear"
+    },
+    "schema:drop": {
+      "command": "nx run cat-food-distributor-back:typeorm schema:drop"
     }
   }
 }
