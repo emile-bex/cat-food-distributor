@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'cat-food-distributor-back-e2e',
+  displayName: 'cat-food-distributors-back-e2e',
   preset: '../../jest.preset.js',
   globalSetup: '<rootDir>/src/support/global-setup.ts',
   globalTeardown: '<rootDir>/src/support/global-teardown.ts',
@@ -12,5 +12,5 @@ export default {
     }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/cat-food-distributor-back-e2e',
+  coverageDirectory: '../../coverage/cat-food-distributors-back-e2e',
 };

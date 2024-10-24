@@ -1,11 +1,29 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { FoodServingsModule } from './food-servings/food-servings.module'
+import { DistributorsModule } from './distributors/distributors.module'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { FoodServing } from './food-servings/entities/food-serving.entity'
+import { EmitorModule } from "./emitor/emitor.module"
+import { Distributor } from "./distributors/entities/distributor.entity"
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: [FoodServing, Distributor],
+      synchronize: true,
+    }),
+    FoodServingsModule,
+    DistributorsModule,
+    EmitorModule,
+  ],
+  controllers: [],
 })
-export class AppModule {}
+export class AppModule {
+}

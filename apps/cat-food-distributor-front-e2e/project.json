@@ -1,0 +1,9 @@
+{
+  "name": "cat-food-distributor-front-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cat-food-distributor-front-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["cat-food-distributor-front"],
+  "// targets": "to see all targets run: nx show project cat-food-distributor-front-e2e --web",
+  "targets": {}
+}
