@@ -8,9 +8,10 @@ import { Distributor } from "./entities/distributor.entity"
 
 @Module({
   imports: [TypeOrmModule.forFeature([Distributor]), JwtModule.register({
-    secret: process.env.SECRET,
+    secret: process.env.SOCKET_SECRET,
   }), FoodServingsModule],
   providers: [DistributorsGateway, DistributorsService],
+  exports: [DistributorsService]
 })
 export class DistributorsModule {
 }

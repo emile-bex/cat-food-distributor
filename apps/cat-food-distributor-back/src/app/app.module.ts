@@ -1,11 +1,14 @@
-import { Module } from '@nestjs/common'
+import { Module } from '@nestjs/common';
 
-import { FoodServingsModule } from './food-servings/food-servings.module'
-import { DistributorsModule } from './distributors/distributors.module'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { FoodServing } from './food-servings/entities/food-serving.entity'
-import { EmitorModule } from "./emitor/emitor.module"
-import { Distributor } from "./distributors/entities/distributor.entity"
+import { FoodServingsModule } from './food-servings/food-servings.module';
+import { DistributorsModule } from './distributors/distributors.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { FoodServing } from './food-servings/entities/food-serving.entity';
+import { Distributor } from './distributors/entities/distributor.entity';
+import { FoodSchedulesModule } from './food-schedules/food-schedules.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { FoodSchedule } from './food-schedules/entities/food-schedule.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,14 +19,16 @@ import { Distributor } from "./distributors/entities/distributor.entity"
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [FoodServing, Distributor],
-      synchronize: true,
+      entities: [FoodServing, Distributor, FoodSchedule],
+      synchronize: true
     }),
+    ScheduleModule.forRoot(),
+    AuthModule,
     FoodServingsModule,
     DistributorsModule,
-    EmitorModule,
+    FoodSchedulesModule
   ],
-  controllers: [],
+  controllers: []
 })
 export class AppModule {
 }

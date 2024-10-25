@@ -4,7 +4,8 @@
     "**/*"
   ],
   "plugins": [
-    "@nx"
+    "@nx",
+    "@stylistic/js"
   ],
   "overrides": [
     {

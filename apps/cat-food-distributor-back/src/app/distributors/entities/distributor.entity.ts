@@ -1,11 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm"
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
 export class Distributor {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({unique: true})
+  @Column({unique: true, nullable: true})
   socketId: string
 
   @Column({unique: true})
@@ -13,4 +13,7 @@ export class Distributor {
 
   @Column({ default: false })
   isAuthorized: boolean;
+
+  @Column({ default: true })
+  isConnected: boolean;
 }
