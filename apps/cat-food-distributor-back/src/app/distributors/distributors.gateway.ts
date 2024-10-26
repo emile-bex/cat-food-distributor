@@ -10,9 +10,7 @@ import {
 import { DistributorsService } from './distributors.service';
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
-
-const IDENTIFICATION_SUCCESS = 'identification-success' as const;
-const IDENTIFICATION_ERROR = 'identification-error' as const;
+import { SocketEvents } from './distributors.types';
 
 @WebSocketGateway()
 export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -49,9 +47,16 @@ export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, 
       });
       const createdDistributor = await this.distributorService.findOneByDistributorId(distributorId);
 
-      client.emit(IDENTIFICATION_SUCCESS, createdDistributor);
+      client.emit(SocketEvents.IDENTIFICATION_SUCCESS, createdDistributor);
+
+      const unconfirmedFoodServings = await this.distributorService.findAllFoodServingsByDistributorIdAndNotConfirmed(createdDistributor.id)
+
+      unconfirmedFoodServings.map(({ id }) => {
+        client.emit(SocketEvents.SERVE_FOOD, { foodServingId: id });
+      })
+
     } else {
-      client.emit(IDENTIFICATION_ERROR);
+      client.emit(SocketEvents.IDENTIFICATION_ERROR);
       client.disconnect();
     }
 
@@ -60,7 +65,7 @@ export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, 
     this.logger.warn(`Number of connected clients: ${sockets.size}`);
   }
 
-  async handleDisconnect(client: Socket) {
+  async handleDisconnect(@ConnectedSocket() client: Socket) {
     this.logger.warn(`Client id: ${client.id} disconnected`);
 
     const distributorToUpdate = await this.distributorService.findOneBySocketId(client.id);
@@ -75,7 +80,18 @@ export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, 
   }
 
   @SubscribeMessage('food-served-confirmation')
-  foodServedConfirmation(@MessageBody('id') id: string) {
-    return this.distributorService.foodServedConfirmation(id);
+  async foodServedConfirmation(@ConnectedSocket() client: Socket, @MessageBody('foodServingId') foodServingId: string) {
+    const distributor = await this.distributorService.findOneBySocketId(client.id);
+    if (!distributor || !distributor.isAuthorized) {
+      this.logger.error(`Distributor for socket ${client.id} does not exist or is not authorized`);
+      return;
+    }
+    const foodServing = await this.distributorService.findOneFoodServingByIdAndDistributorId(foodServingId, distributor.id);
+    if (!foodServing) {
+      this.logger.error(`Food Serving with id ${foodServingId} and distributorId ${distributor.id} does not exist and can't be confirmed`);
+      return;
+    }
+    await this.distributorService.foodServedConfirmation(foodServingId);
+    this.logger.warn(`Food Serving with id ${foodServingId} and distributorId ${distributor.id} has been served`);
   }
 }

@@ -23,8 +23,18 @@ export class FoodServingsService {
     return this.foodServingRepository.findOneBy({ id });
   }
 
-  update(id: string, updateFoodServingDto: UpdateFoodServingDto) {
-    const foodServingToUpdate = this.foodServingRepository.create({...updateFoodServingDto, id })
-    return this.foodServingRepository.save(foodServingToUpdate);
+  findAllByDistributorIdAndNotConfirmed(distributorId: string) {
+    return this.foodServingRepository.findBy({
+      distributorId, isConfirmed: false
+    });
+  }
+
+  findOneByIdAndDistributorId(id: string, distributorId: string) {
+    return this.foodServingRepository.findOneBy({ id, distributorId });
+  }
+
+  async update(id: string, updateFoodServingDto: UpdateFoodServingDto) {
+    await this.foodServingRepository.update(id, updateFoodServingDto)
+    return this.foodServingRepository.findOneBy({ id });
   }
 }

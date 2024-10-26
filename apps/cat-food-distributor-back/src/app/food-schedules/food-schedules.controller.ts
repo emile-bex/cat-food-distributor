@@ -30,8 +30,13 @@ export class FoodSchedulesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.foodSchedulesService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const foodSchedule = await this.foodSchedulesService.findOne(id);
+    if (!foodSchedule) {
+      throw new NotFoundException();
+    }
+
+    return foodSchedule;
   }
 
   @Patch(':id')
@@ -39,10 +44,10 @@ export class FoodSchedulesController {
     @Param('id') id: string,
     @Body() updateFoodScheduleDto: UpdateFoodScheduleDto
   ) {
-    const foodSchedule = this.foodSchedulesService.findOne(id);
+    const foodScheduleToUpdate = this.foodSchedulesService.findOne(id);
 
-    if(!foodSchedule) {
-      throw new NotFoundException()
+    if (!foodScheduleToUpdate) {
+      throw new NotFoundException();
     }
 
     const updatedFoodSchedule = await this.foodSchedulesService.update(id, updateFoodScheduleDto);
@@ -52,10 +57,10 @@ export class FoodSchedulesController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    const foodSchedule = this.foodSchedulesService.findOne(id);
+    const foodScheduleToRemove = this.foodSchedulesService.findOne(id);
 
-    if(!foodSchedule) {
-      throw new NotFoundException()
+    if (!foodScheduleToRemove) {
+      throw new NotFoundException();
     }
 
     const deletedFoodSchedule = await this.foodSchedulesService.remove(id);

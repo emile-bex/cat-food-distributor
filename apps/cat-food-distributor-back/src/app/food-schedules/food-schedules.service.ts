@@ -10,8 +10,7 @@ import { FoodSchedule } from './entities/food-schedule.entity';
 import { UpdateFoodScheduleDto } from './dto/update-food-schedule.dto';
 import { CreateFoodScheduleDto } from './dto/create-food-schedule.dto';
 import { DistributorsService } from '../distributors/distributors.service';
-
-const SERVE_FOOD = 'serve-food' as const;
+import { SocketEvents } from '../distributors/distributors.types';
 
 @Injectable()
 @WebSocketGateway()
@@ -30,12 +29,13 @@ export class FoodSchedulesService implements OnModuleInit {
 
   async createFoodServing(distributorId: string) {
     const distributor = await this.distributorsService.findOneByDistributorId(distributorId);
-    if (distributor && distributor.isAuthorized) {
-      await this.foodServingsService.create({ distributorId });
-      const distributorSocket = this.server.sockets.sockets.get(distributor.socketId);
-      if (distributorSocket) {
-        distributorSocket.emit(SERVE_FOOD);
-      }
+    if (!distributor || distributor.isAuthorized) {
+      this.logger.error(`Food Serving for Distributor ${distributor.id} does not exist or is not authorized`);
+    }
+    const foodServing = await this.foodServingsService.create({ distributorId });
+    const distributorSocket = this.server.sockets.sockets.get(distributor.socketId);
+    if (distributorSocket) {
+      distributorSocket.emit(SocketEvents.SERVE_FOOD, { foodServingId: foodServing.id });
     }
   }
 
@@ -107,14 +107,14 @@ export class FoodSchedulesService implements OnModuleInit {
     });
   }
 
-  update(id: string, updateFoodScheduleDto: UpdateFoodScheduleDto) {
-    const foodScheduleToUpdate = this.foodScheduleRepository.create({ ...updateFoodScheduleDto, id });
-    return this.foodScheduleRepository.save(foodScheduleToUpdate);
+  async update(id: string, updateFoodScheduleDto: UpdateFoodScheduleDto) {
+    await this.foodScheduleRepository.update(id, updateFoodScheduleDto);
+    return this.foodScheduleRepository.findOneBy({ id });
   }
 
   async remove(id: string) {
-    const foodScheduleToRemove = this.foodScheduleRepository.create({ id });
+    const foodScheduleToRemove = await this.foodScheduleRepository.findOneBy({ id });
     await this.foodScheduleRepository.remove(foodScheduleToRemove);
-    return foodScheduleToRemove
+    return foodScheduleToRemove;
   }
 }

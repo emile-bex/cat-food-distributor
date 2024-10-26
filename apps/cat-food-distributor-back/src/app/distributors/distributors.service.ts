@@ -9,6 +9,7 @@ import { UpdateDistributorDto } from './dto/update-distributor.dto';
 
 @Injectable()
 export class DistributorsService {
+
   constructor(@InjectRepository(Distributor)
               private distributorRepository: Repository<Distributor>, private foodServingsService: FoodServingsService, private jwtService: JwtService) {
   }
@@ -32,8 +33,8 @@ export class DistributorsService {
   }
 
   async update(id: string, updateDistributorDto: UpdateDistributorDto) {
-    const distributorToUpdate = this.distributorRepository.create({...updateDistributorDto, id})
-    return this.distributorRepository.save(distributorToUpdate);
+    await this.distributorRepository.update(id, updateDistributorDto);
+    return this.distributorRepository.findOneBy({ id });
   }
 
   async removeBySocketId(socketId: string) {
@@ -48,12 +49,19 @@ export class DistributorsService {
       const { sub }: { sub: string } = this.jwtService.decode(token);
       return sub;
     } catch (err) {
-      console.error(err);
       return false;
     }
   }
 
-  foodServedConfirmation(id: string) {
-    return this.foodServingsService.update(id, { isConfirmed: true });
+  findAllFoodServingsByDistributorIdAndNotConfirmed(distributorId: string) {
+    return this.foodServingsService.findAllByDistributorIdAndNotConfirmed(distributorId);
+  }
+
+  findOneFoodServingByIdAndDistributorId(foodServingId: string, distributorId: string) {
+    return this.foodServingsService.findOneByIdAndDistributorId(foodServingId, distributorId);
+  }
+
+  foodServedConfirmation(foodServingId: string) {
+    return this.foodServingsService.update(foodServingId, { isConfirmed: true });
   }
 }
