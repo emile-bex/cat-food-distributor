@@ -5,11 +5,10 @@ import {
   Body,
   Patch,
   Param,
-  Delete, NotFoundException
+  Delete, NotFoundException, ForbiddenException, ParseUUIDPipe
 } from '@nestjs/common';
 import { FoodSchedulesService } from './food-schedules.service';
-import { CreateFoodScheduleDto } from './dto/create-food-schedule.dto';
-import { UpdateFoodScheduleDto } from './dto/update-food-schedule.dto';
+import { CreateFoodScheduleDto, UpdateFoodScheduleDto } from '@cat-food-distributor/dtos';
 import { DistributorId } from '../auth/distributor-id.decorator';
 
 @Controller('food-schedules')
@@ -19,7 +18,10 @@ export class FoodSchedulesController {
 
   @Post()
   async create(@DistributorId() distributorId: string, @Body() createFoodScheduleDto: CreateFoodScheduleDto) {
-    const createdFoodSchedule = await this.foodSchedulesService.create({ distributorId, ...createFoodScheduleDto });
+    if (distributorId !== createFoodScheduleDto.distributorId) {
+      throw new ForbiddenException();
+    }
+    const createdFoodSchedule = await this.foodSchedulesService.create(createFoodScheduleDto);
     this.foodSchedulesService.createJob(createdFoodSchedule);
     return createdFoodSchedule;
   }
@@ -30,8 +32,9 @@ export class FoodSchedulesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const foodSchedule = await this.foodSchedulesService.findOne(id);
+  async findOne(@DistributorId() distributorId: string, @Param('id', ParseUUIDPipe) id: string) {
+    const foodSchedule = await this.foodSchedulesService.findOneByIdAndDistributorId(id, distributorId);
+
     if (!foodSchedule) {
       throw new NotFoundException();
     }
@@ -41,10 +44,11 @@ export class FoodSchedulesController {
 
   @Patch(':id')
   async update(
-    @Param('id') id: string,
+    @DistributorId() distributorId: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateFoodScheduleDto: UpdateFoodScheduleDto
   ) {
-    const foodScheduleToUpdate = this.foodSchedulesService.findOne(id);
+    const foodScheduleToUpdate = this.foodSchedulesService.findOneByIdAndDistributorId(id, distributorId);
 
     if (!foodScheduleToUpdate) {
       throw new NotFoundException();
@@ -56,8 +60,8 @@ export class FoodSchedulesController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    const foodScheduleToRemove = this.foodSchedulesService.findOne(id);
+  async remove(@DistributorId() distributorId: string, @Param('id', ParseUUIDPipe) id: string) {
+    const foodScheduleToRemove = this.foodSchedulesService.findOneByIdAndDistributorId(id, distributorId);
 
     if (!foodScheduleToRemove) {
       throw new NotFoundException();

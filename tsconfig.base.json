@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@cat-food-distributor/dtos": [
+        "libs/shared/data-access/dtos/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

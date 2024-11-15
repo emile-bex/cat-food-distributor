@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './public.decorator';
+import { AuthDto, AuthResponse } from '@cat-food-distributor/dtos';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +17,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post()
   @Public()
-  signIn(@Body("distributorId") distributorId: string) {
-    return this.authService.signIn(distributorId);
+  signIn(@Body() body: AuthDto): Promise<AuthResponse> {
+    return this.authService.signIn(body.distributorId);
   }
 }

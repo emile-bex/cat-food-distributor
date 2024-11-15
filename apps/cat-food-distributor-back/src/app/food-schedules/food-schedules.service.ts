@@ -7,8 +7,7 @@ import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { FoodServingsService } from '../food-servings/food-servings.service';
 import { FoodSchedule } from './entities/food-schedule.entity';
-import { UpdateFoodScheduleDto } from './dto/update-food-schedule.dto';
-import { CreateFoodScheduleDto } from './dto/create-food-schedule.dto';
+import { CreateFoodScheduleDto, UpdateFoodScheduleDto } from '@cat-food-distributor/dtos';
 import { DistributorsService } from '../distributors/distributors.service';
 import { SocketEvents } from '../distributors/distributors.types';
 
@@ -29,8 +28,8 @@ export class FoodSchedulesService implements OnModuleInit {
 
   async createFoodServing(distributorId: string) {
     const distributor = await this.distributorsService.findOneByDistributorId(distributorId);
-    if (!distributor || distributor.isAuthorized) {
-      this.logger.error(`Food Serving for Distributor ${distributor.id} does not exist or is not authorized`);
+    if (!distributor || !distributor.isAuthorized) {
+      this.logger.error(`Food Serving for Distributor ${distributor.distributorId} does not exist or is not authorized`);
     }
     const foodServing = await this.foodServingsService.create({ distributorId });
     const distributorSocket = this.server.sockets.sockets.get(distributor.socketId);
@@ -43,14 +42,16 @@ export class FoodSchedulesService implements OnModuleInit {
     return `${distributorId}_${id}`;
   }
 
-  createJob({ id, distributorId, cron }: FoodSchedule) {
+  createJob({ id, distributorId, cron, isActive }: FoodSchedule) {
     const cronId = this.getCronId({ id, distributorId });
     const job = new CronJob(cron, async () => {
       this.logger.warn(`Time for job ${cronId} to run`);
       await this.createFoodServing(distributorId);
     });
     this.schedulerRegistry.addCronJob(cronId, job);
-    job.start();
+    if (isActive) {
+      job.start();
+    }
     this.logger.warn(
       `Job for ${cronId} added : ${cron}`
     );
@@ -61,13 +62,18 @@ export class FoodSchedulesService implements OnModuleInit {
 
     const distributorJob = this.schedulerRegistry.getCronJob(cronId);
 
-    if (!isActive) {
-      distributorJob.stop();
-    }
 
     if (cron) {
       const cronTime = new CronTime(cron);
       distributorJob.setTime(cronTime);
+    }
+
+    if (!isActive) {
+      distributorJob.stop();
+    }
+
+    if (isActive) {
+      distributorJob.start();
     }
   }
 
@@ -80,13 +86,11 @@ export class FoodSchedulesService implements OnModuleInit {
   async onModuleInit() {
     const foodSchedules = await this.findAll();
     foodSchedules.map((foodSchedule) => {
-      if (foodSchedule.isActive) {
-        this.createJob(foodSchedule);
-      }
+      this.createJob(foodSchedule);
     });
   }
 
-  create(createFoodScheduleDto: CreateFoodScheduleDto & { distributorId: string }) {
+  create(createFoodScheduleDto: CreateFoodScheduleDto) {
     const foodScheduleToCreate = this.foodScheduleRepository.create(createFoodScheduleDto);
     return this.foodScheduleRepository.save(foodScheduleToCreate);
   }
@@ -101,9 +105,10 @@ export class FoodSchedulesService implements OnModuleInit {
     });
   }
 
-  findOne(id: string) {
+  findOneByIdAndDistributorId(id: string, distributorId: string) {
     return this.foodScheduleRepository.findOneBy({
-      id
+      id,
+      distributorId
     });
   }
 

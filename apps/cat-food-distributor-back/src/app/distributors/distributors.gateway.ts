@@ -11,6 +11,9 @@ import { DistributorsService } from './distributors.service';
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { SocketEvents } from './distributors.types';
+import {
+  ConfirmFoodServingDto
+} from '@cat-food-distributor/dtos';
 
 @WebSocketGateway()
 export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -49,7 +52,7 @@ export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, 
 
       client.emit(SocketEvents.IDENTIFICATION_SUCCESS, createdDistributor);
 
-      const unconfirmedFoodServings = await this.distributorService.findAllFoodServingsByDistributorIdAndNotConfirmed(createdDistributor.id)
+      const unconfirmedFoodServings = await this.distributorService.findAllFoodServingsByDistributorIdAndNotConfirmed(createdDistributor.distributorId)
 
       unconfirmedFoodServings.map(({ id }) => {
         client.emit(SocketEvents.SERVE_FOOD, { foodServingId: id });
@@ -80,18 +83,18 @@ export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, 
   }
 
   @SubscribeMessage('food-served-confirmation')
-  async foodServedConfirmation(@ConnectedSocket() client: Socket, @MessageBody('foodServingId') foodServingId: string) {
+  async foodServedConfirmation(@ConnectedSocket() client: Socket, @MessageBody() body: ConfirmFoodServingDto) {
     const distributor = await this.distributorService.findOneBySocketId(client.id);
     if (!distributor || !distributor.isAuthorized) {
       this.logger.error(`Distributor for socket ${client.id} does not exist or is not authorized`);
       return;
     }
-    const foodServing = await this.distributorService.findOneFoodServingByIdAndDistributorId(foodServingId, distributor.id);
+    const foodServing = await this.distributorService.findOneFoodServingByIdAndDistributorId(body.foodServingId, distributor.distributorId);
     if (!foodServing) {
-      this.logger.error(`Food Serving with id ${foodServingId} and distributorId ${distributor.id} does not exist and can't be confirmed`);
+      this.logger.error(`Food Serving with id ${foodServing.id} and distributorId ${foodServing.distributorId} does not exist and can't be confirmed`);
       return;
     }
-    await this.distributorService.foodServedConfirmation(foodServingId);
-    this.logger.warn(`Food Serving with id ${foodServingId} and distributorId ${distributor.id} has been served`);
+    await this.distributorService.foodServedConfirmation(body.foodServingId);
+    this.logger.warn(`Food Serving with id ${foodServing.id} and distributorId ${foodServing.distributorId} has been confirmed`);
   }
 }

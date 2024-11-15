@@ -4,8 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Distributor } from './entities/distributor.entity';
-import { CreateDistributorDto } from './dto/create-distributor.dto';
-import { UpdateDistributorDto } from './dto/update-distributor.dto';
+import { CreateDistributorDto, UpdateDistributorDto } from '@cat-food-distributor/dtos';
 
 @Injectable()
 export class DistributorsService {
@@ -35,12 +34,6 @@ export class DistributorsService {
   async update(id: string, updateDistributorDto: UpdateDistributorDto) {
     await this.distributorRepository.update(id, updateDistributorDto);
     return this.distributorRepository.findOneBy({ id });
-  }
-
-  async removeBySocketId(socketId: string) {
-    const distributorToRemove = await this.findOneBySocketId(socketId);
-    await this.distributorRepository.remove(distributorToRemove);
-    return distributorToRemove;
   }
 
   async checkIdentification(token: string) {
