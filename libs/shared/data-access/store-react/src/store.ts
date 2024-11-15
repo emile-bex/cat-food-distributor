@@ -4,7 +4,6 @@ import { all, spawn, call } from 'typed-redux-saga';
 import { UseCaseConfigItem } from './types';
 import { useCasesConfigs } from './config';
 import { AppDependencies } from './dependencies';
-import { CookiesAuthTokenStorage, HTTPAuthGateway } from '../adapters';
 
 const useCasesList = Object.values(useCasesConfigs) as UseCaseConfigItem[];
 
@@ -16,19 +15,16 @@ const reducers = useCasesList.reduce(
   {}
 );
 
-const dependencies: AppDependencies = {
-  authGateway: new HTTPAuthGateway(),
-  authTokenStorage: new CookiesAuthTokenStorage()
-};
 
-const sagaMiddleware = createSagaMiddleware({
-  context: { dependencies }
-});
+export const makeStore = (dependencies: AppDependencies) => {
+  const sagaMiddleware = createSagaMiddleware({
+    context: { dependencies }
+  });
 
-export const makeStore = () => {
   const store = configureStore({
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(sagaMiddleware),
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware().concat(sagaMiddleware);
+    },
     reducer: reducers
   });
 

@@ -17,6 +17,9 @@
     "paths": {
       "@cat-food-distributor/dtos": [
         "libs/shared/data-access/dtos/src/index.ts"
+      ],
+      "@cat-food-distributor/store-react": [
+        "libs/shared/data-access/store-react/src/index.ts"
       ]
     }
   },

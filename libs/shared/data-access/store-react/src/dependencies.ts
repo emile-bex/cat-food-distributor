@@ -1,4 +1,4 @@
-import { AuthDependencies } from './auth';
+import { AuthDependencies } from './auth/auth.saga';
 
 export type AppDependencies = AuthDependencies
 

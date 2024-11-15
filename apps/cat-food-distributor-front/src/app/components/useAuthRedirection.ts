@@ -1,13 +1,10 @@
-'use client'
-
 import { useRouter } from 'next/navigation';
-import { selectToken } from '../../use-cases/auth';
 import { useEffect } from 'react';
-import { useAppSelector } from '../../use-cases/hooks';
+import { useAppSelector, authSelectors } from '@cat-food-distributor/store-react';
 
 export function useAuthRedirection() {
   const { replace } = useRouter();
-  const token = useAppSelector(selectToken);
+  const token = useAppSelector(authSelectors.selectToken);
   const isAuthenticated = !!token
 
   useEffect(() => {

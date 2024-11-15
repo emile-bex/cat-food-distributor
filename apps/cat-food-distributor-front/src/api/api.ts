@@ -3,8 +3,6 @@ import { AuthDto, CreateFoodScheduleDto, UpdateFoodScheduleDto } from '@cat-food
 import { addAxiosInterceptors } from './interceptor';
 import { AuthResponse } from '@cat-food-distributor/dtos';
 
-console.log(process.env.NEXT_PUBLIC_API_URL)
-
 const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {

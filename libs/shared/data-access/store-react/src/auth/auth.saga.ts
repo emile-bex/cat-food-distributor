@@ -1,6 +1,6 @@
 import { call, fork, getContext, put, takeLatest } from 'typed-redux-saga';
 import { slice } from './auth.slice';
-import { AuthDependencies } from './index';
+import { AuthDependencies } from './auth.dependencies';
 
 const {
   loginRequested,

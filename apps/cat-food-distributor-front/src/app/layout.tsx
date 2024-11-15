@@ -1,6 +1,9 @@
+'use client'
+
 import { StyledComponentsRegistry } from './registry';
 import React from 'react';
-import { StoreProvider } from '../use-cases/StoreProvider';
+import { StoreProvider } from '@cat-food-distributor/store-react';
+import { dependencies } from '../adapters';
 
 export default function RootLayout({ children }: {
   children: React.ReactNode;
@@ -8,7 +11,7 @@ export default function RootLayout({ children }: {
   return (
     <html lang="en">
     <body>
-    <StoreProvider>
+    <StoreProvider dependencies={dependencies}>
       <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
     </StoreProvider>
     </body>
