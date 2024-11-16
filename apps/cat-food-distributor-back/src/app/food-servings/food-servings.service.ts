@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFoodServingDto, UpdateFoodServingDto } from '@cat-food-distributor/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FoodServing } from './entities/food-serving.entity';
+import { FoodServing } from '@cat-food-distributor/entities';
 import { Repository } from 'typeorm';
 import moment from 'moment';
 
@@ -14,7 +14,10 @@ export class FoodServingsService {
   }
 
   create(createFoodServingDto: CreateFoodServingDto) {
-    const foodServingToCreate = this.foodServingRepository.create({ ...createFoodServingDto, dateTime: moment().toISOString() })
+    const foodServingToCreate = this.foodServingRepository.create({
+      ...createFoodServingDto,
+      dateTime: moment().toISOString()
+    });
     return this.foodServingRepository.save(foodServingToCreate);
   }
 
@@ -29,7 +32,7 @@ export class FoodServingsService {
   }
 
   async update(id: string, updateFoodServingDto: UpdateFoodServingDto) {
-    await this.foodServingRepository.update(id, updateFoodServingDto)
+    await this.foodServingRepository.update(id, updateFoodServingDto);
     return this.foodServingRepository.findOneBy({ id });
   }
 }

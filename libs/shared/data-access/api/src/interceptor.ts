@@ -1,12 +1,6 @@
 import { AxiosInstance } from 'axios';
-import { getTokenFromCookies } from '../services/authToken';
 
-export function addAxiosInterceptors(instance: AxiosInstance) {
-
-  function getToken() {
-    return getTokenFromCookies();
-  }
-
+export function addAxiosInterceptors(instance: AxiosInstance, getToken: () => string | null) {
   instance.interceptors.request.use(
     (config) => {
       const accessToken = getToken();

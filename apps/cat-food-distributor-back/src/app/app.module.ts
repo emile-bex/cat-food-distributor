@@ -3,11 +3,9 @@ import { Module } from '@nestjs/common';
 import { FoodServingsModule } from './food-servings/food-servings.module';
 import { DistributorsModule } from './distributors/distributors.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FoodServing } from './food-servings/entities/food-serving.entity';
-import { Distributor } from './distributors/entities/distributor.entity';
+import { FoodServing, Distributor, FoodSchedule } from '@cat-food-distributor/entities';
 import { FoodSchedulesModule } from './food-schedules/food-schedules.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { FoodSchedule } from './food-schedules/entities/food-schedule.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({

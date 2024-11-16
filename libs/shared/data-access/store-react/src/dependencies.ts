@@ -1,5 +1,6 @@
-import { AuthDependencies } from './auth/auth.saga';
+import { AuthDependencies } from './auth';
+import { FoodSchedulesDependencies } from './food-schedules';
 
-export type AppDependencies = AuthDependencies
+export type AppDependencies = AuthDependencies & FoodSchedulesDependencies;
 
 export type PartialAppDependencies = Partial<AppDependencies>;

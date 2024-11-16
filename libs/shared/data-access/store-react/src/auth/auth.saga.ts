@@ -13,7 +13,7 @@ function* loginRequestedSaga(action: ReturnType<typeof loginRequested>) {
   try {
     const dependencies: AuthDependencies = yield getContext('dependencies');
     const { authGateway } = dependencies;
-    const response = yield* call(authGateway.auth, action.payload);
+    const response = yield* call(() => authGateway.auth(action.payload));
 
     yield* put(
       loginSucceeded({

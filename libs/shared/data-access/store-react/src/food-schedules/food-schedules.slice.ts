@@ -1,38 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { FoodSchedule } from '@cat-food-distributor/entities';
 import { SliceRootState } from '../types';
 
 export interface State {
   isLoading: boolean,
-  token: string | null;
   error: string | null;
+  foodSchedules: FoodSchedule[] | null
 }
 
 const initialState: State = {
   isLoading: false,
-  token: null,
+  foodSchedules: null,
   error: null,
 };
 
 export const slice = createSlice({
-  name: 'authentication',
+  name: 'foodSchedules',
   initialState,
   reducers: {
-    loginRequested(state, action: PayloadAction<{ distributorId: string }>) {
+    findAllFoodSchedulesRequested(state) {
       state.isLoading = true;
       state.error = null;
     },
-    loginSucceeded(state, action: PayloadAction<{ accessToken: string }>) {
+    findAllFoodSchedulesSucceeded(state, action: PayloadAction<{ foodSchedules: FoodSchedule[] }>) {
       state.isLoading = false
-      state.token = action.payload.accessToken;
+      state.foodSchedules = action.payload.foodSchedules;
       state.error = null;
     },
-    loginFailed(state, action) {
+    findAllFoodSchedulesFailed(state, action) {
       state.isLoading = false;
       state.error = action.payload.error;
     },
-    setAccessToken(state, action: PayloadAction<string | null>) {
-      state.token = action.payload;
-    }
   }
 });
 

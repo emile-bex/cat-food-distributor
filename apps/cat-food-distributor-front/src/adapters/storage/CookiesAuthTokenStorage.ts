@@ -1,5 +1,5 @@
 import { IAuthTokenStorage } from '@cat-food-distributor/store-react';
-import { getTokenFromCookies, setTokenIntoCookies } from '../../services/authToken';
+import { getTokenFromCookies, removeTokenFromCookies, setTokenIntoCookies } from '../../services/authToken';
 
 export class CookiesAuthTokenStorage implements IAuthTokenStorage {
   setToken(token: string) {
@@ -11,6 +11,6 @@ export class CookiesAuthTokenStorage implements IAuthTokenStorage {
   }
 
   removeToken() {
-    this.setToken('');
+    removeTokenFromCookies()
   }
 }

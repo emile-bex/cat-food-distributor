@@ -4,7 +4,7 @@ import { DistributorsGateway } from './distributors.gateway'
 import { FoodServingsModule } from "../food-servings/food-servings.module"
 import { JwtModule } from "@nestjs/jwt"
 import { TypeOrmModule } from "@nestjs/typeorm"
-import { Distributor } from "./entities/distributor.entity"
+import { Distributor } from "@cat-food-distributor/entities"
 
 @Module({
   imports: [TypeOrmModule.forFeature([Distributor]), JwtModule.register({

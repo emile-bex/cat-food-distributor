@@ -6,7 +6,7 @@ import { CronJob, CronTime } from 'cron';
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { FoodServingsService } from '../food-servings/food-servings.service';
-import { FoodSchedule } from './entities/food-schedule.entity';
+import { FoodSchedule } from '@cat-food-distributor/entities';
 import { CreateFoodScheduleDto, UpdateFoodScheduleDto } from '@cat-food-distributor/dtos';
 import { DistributorsService } from '../distributors/distributors.service';
 import { SocketEvents } from '../distributors/distributors.types';

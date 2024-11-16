@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Distributor } from '../distributors/entities/distributor.entity';
+import { Distributor } from '../../../../../libs/shared/data-access/entities/src/distributors/distributor.entity';
 
 export const DistributorId = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {

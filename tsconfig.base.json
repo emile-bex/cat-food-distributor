@@ -15,8 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@cat-food-distributor/api": ["libs/shared/data-access/api/src/index.ts"],
       "@cat-food-distributor/dtos": [
         "libs/shared/data-access/dtos/src/index.ts"
+      ],
+      "@cat-food-distributor/entities": [
+        "libs/shared/data-access/entities/src/index.ts"
       ],
       "@cat-food-distributor/store-react": [
         "libs/shared/data-access/store-react/src/index.ts"
