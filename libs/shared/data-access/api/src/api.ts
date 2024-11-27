@@ -12,7 +12,7 @@ import { AuthResponse } from '@cat-food-distributor/dtos';
 export class Api {
   private instance: AxiosInstance;
 
-  constructor(baseUrl: string | undefined, getToken: () => string | null) {
+  constructor(baseUrl: string | undefined, getToken: () => Promise<string | null>) {
     this.instance = axios.create({
         baseURL: baseUrl,
         headers: {
@@ -31,7 +31,7 @@ export class Api {
   }
 
   findAllFoodSchedules(): Promise<AxiosResponse<FindAllFoodSchedulesResponse>> {
-    return this.instance.post('food-schedules');
+    return this.instance.get('food-schedules');
   }
 
   createFoodSchedule(createFoodScheduleDto: CreateFoodScheduleDto): Promise<AxiosResponse<CreateFoodScheduleResponse>> {

@@ -1,16 +1,16 @@
-import { IAuthTokenStorage } from '@cat-food-distributor/store-react';
+import { IAuthTokenStorage } from '@cat-food-distributor/shared/data-access/store';
 import { getTokenFromCookies, removeTokenFromCookies, setTokenIntoCookies } from '../../services/authToken';
 
 export class CookiesAuthTokenStorage implements IAuthTokenStorage {
-  setToken(token: string) {
-    setTokenIntoCookies(token);
+  async setToken(token: string) {
+    await setTokenIntoCookies(token);
   }
 
   getToken() {
     return getTokenFromCookies();
   }
 
-  removeToken() {
-    removeTokenFromCookies()
+  async removeToken() {
+    await removeTokenFromCookies()
   }
 }

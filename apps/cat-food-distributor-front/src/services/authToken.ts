@@ -1,14 +1,15 @@
 import { Cookies } from '../utils/types/Cookies';
-import { getCookie, setCookie, deleteCookie} from 'cookies-next/client';
+import { getCookie, setCookie, deleteCookie} from 'cookies-next';
 
-export function getTokenFromCookies(): string | null {
-  return getCookie(Cookies.AUTH_TOKEN) || null
+export async function getTokenFromCookies(): Promise<string | null> {
+  const token = await getCookie(Cookies.AUTH_TOKEN);
+  return token || null;
 }
 
-export function setTokenIntoCookies(authToken: string): void {
-  setCookie(Cookies.AUTH_TOKEN, authToken)
+export async function setTokenIntoCookies(authToken: string): Promise<void> {
+  await setCookie(Cookies.AUTH_TOKEN, authToken)
 }
 
-export function removeTokenFromCookies(): void {
-  deleteCookie(Cookies.AUTH_TOKEN)
+export async function removeTokenFromCookies(): Promise<void> {
+  await deleteCookie(Cookies.AUTH_TOKEN)
 }

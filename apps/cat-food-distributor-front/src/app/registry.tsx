@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+import { isSSR } from '../utils/misc/isSSR';
 
 export function StyledComponentsRegistry({
-  children,
-}: {
+                                           children
+                                         }: {
   children: React.ReactNode;
 }) {
   // Only create stylesheet once with lazy initial state
@@ -16,14 +17,12 @@ export function StyledComponentsRegistry({
   useServerInsertedHTML(() => {
     const styles = styledComponentsStyleSheet.getStyleElement();
 
-    // Types are out of date, clearTag is not defined.
-    // See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/65021
-    (styledComponentsStyleSheet.instance as any).clearTag();
+    styledComponentsStyleSheet.instance.clearTag();
 
     return <>{styles}</>;
   });
 
-  if (typeof window !== 'undefined') return <>{children}</>;
+  if (!isSSR) return <>{children}</>;
 
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>

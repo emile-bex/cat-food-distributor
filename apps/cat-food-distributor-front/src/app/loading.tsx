@@ -1,5 +1,5 @@
-import { CircularProgress } from '@mui/material';
+import { Spinner } from './components';
 
 export default function Loading() {
-  return <CircularProgress />;
+  return <Spinner />;
 }

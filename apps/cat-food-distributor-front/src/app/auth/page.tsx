@@ -1,16 +1,15 @@
 'use client';
 
-import { QRScanner } from './QRScanner';
-import { useAuthRedirection } from '../components/useAuthRedirection';
-import { CircularProgress } from '@mui/material';
-import { useAppSelector, authSelectors } from '@cat-food-distributor/store-react';
+import { useAuthRedirection } from '../hooks/useAuthRedirection';
+import { Spinner } from '../components';
+import Auth from './Auth';
 
 export default function AuthPage() {
-  const isAuthenticated = useAuthRedirection();
-  const isLoading = useAppSelector(authSelectors.selectIsLoading);
+  const { isFetchingToken, isAuthenticated } = useAuthRedirection();
 
-  if (isAuthenticated || isLoading) {
-    return <CircularProgress />;
+  if (isFetchingToken || isAuthenticated) {
+    return <Spinner />
   }
-  return <QRScanner />;
+
+  return <Auth />
 };

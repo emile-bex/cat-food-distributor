@@ -1,0 +1,21 @@
+{
+  "name": "shared-data-access-store-types",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/data-access/store-types/src",
+  "projectType": "library",
+  "tags": [
+    "type:data-access"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/data-access/store-types",
+        "main": "libs/shared/data-access/store-types/src/index.ts",
+        "tsConfig": "libs/shared/data-access/store-types/tsconfig.lib.json",
+        "assets": ["libs/shared/data-access/store-types/*.md"]
+      }
+    }
+  }
+}

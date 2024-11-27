@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { FoodSchedulesService } from './food-schedules.service';
 import { FoodSchedulesController } from './food-schedules.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FoodSchedule } from '@cat-food-distributor/entities';
+import { FoodSchedule } from '@cat-food-distributor/shared/food-schedules/data-access';
 import { FoodServingsModule } from '../food-servings/food-servings.module';
 import { DistributorsModule } from '../distributors/distributors.module';
 

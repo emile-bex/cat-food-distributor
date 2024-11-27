@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { useAuthRedirection } from './components/useAuthRedirection';
-import { CircularProgress } from '@mui/material';
+import { useAuthRedirection } from './hooks/useAuthRedirection';
+import { Spinner } from './components';
 
 export default function IndexPage() {
   useAuthRedirection();
-  return <CircularProgress />;
+  return <Spinner />;
 }

@@ -15,15 +15,26 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cat-food-distributor/api": ["libs/shared/data-access/api/src/index.ts"],
-      "@cat-food-distributor/dtos": [
-        "libs/shared/data-access/dtos/src/index.ts"
+      "@cat-food-distributor/shared/auth/data-access": [
+        "libs/shared/auth/data-access/src/index.ts"
       ],
-      "@cat-food-distributor/entities": [
-        "libs/shared/data-access/entities/src/index.ts"
+      "@cat-food-distributor/shared/data-access/api": [
+        "libs/shared/data-access/api/src/index.ts"
       ],
-      "@cat-food-distributor/store-react": [
-        "libs/shared/data-access/store-react/src/index.ts"
+      "@cat-food-distributor/shared/data-access/store": [
+        "libs/shared/data-access/store/src/index.ts"
+      ],
+      "@cat-food-distributor/shared/data-access/store-types": [
+        "libs/shared/data-access/store-types/src/index.ts"
+      ],
+      "@cat-food-distributor/shared/distributors/data-access": [
+        "libs/shared/distributors/data-access/src/index.ts"
+      ],
+      "@cat-food-distributor/shared/food-schedules/data-access": [
+        "libs/shared/food-schedules/data-access/src/index.ts"
+      ],
+      "@cat-food-distributor/shared/food-servings/data-access": [
+        "libs/shared/food-servings/data-access/src/index.ts"
       ]
     }
   },

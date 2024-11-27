@@ -13,7 +13,7 @@ import { Logger } from '@nestjs/common';
 import { SocketEvents } from './distributors.types';
 import {
   ConfirmFoodServingDto
-} from '@cat-food-distributor/dtos';
+} from '@cat-food-distributor/shared/food-servings/data-access';
 
 @WebSocketGateway()
 export class DistributorsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {

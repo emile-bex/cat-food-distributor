@@ -1,14 +1,15 @@
 'use client';
 
-import { CircularProgress } from '@mui/material';
-import { useAuthRedirection } from '../components/useAuthRedirection';
+import { useAuthRedirection } from '../hooks/useAuthRedirection';
+import { Home } from './Home';
+import { Spinner } from '../components';
 
 export default function HomePage() {
-  const isAuthenticated = useAuthRedirection();
+  const { isAuthenticated, isFetchingToken } = useAuthRedirection();
 
-  if (!isAuthenticated) {
-    return <CircularProgress />;
+  if (isFetchingToken || !isAuthenticated) {
+    return <Spinner />;
   }
 
-  return <div><span>hello</span></div>;
+  return <Home />;
 }

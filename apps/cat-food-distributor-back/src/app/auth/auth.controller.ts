@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './public.decorator';
-import { AuthDto, AuthResponse } from '@cat-food-distributor/dtos';
+import { AuthDto, AuthResponse } from '@cat-food-distributor/shared/auth/data-access';
 
 @Controller('auth')
 export class AuthController {

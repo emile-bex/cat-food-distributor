@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFoodServingDto, UpdateFoodServingDto } from '@cat-food-distributor/dtos';
+import { CreateFoodServingDto, UpdateFoodServingDto, FoodServing } from '@cat-food-distributor/shared/food-servings/data-access';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FoodServing } from '@cat-food-distributor/entities';
 import { Repository } from 'typeorm';
 import moment from 'moment';
 

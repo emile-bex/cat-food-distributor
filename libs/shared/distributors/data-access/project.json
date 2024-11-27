@@ -1,0 +1,21 @@
+{
+  "name": "shared-distributors-data-access",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/distributors/data-access/src",
+  "projectType": "library",
+  "tags": [
+    "type:data-access"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/distributors/data-access",
+        "main": "libs/shared/distributors/data-access/src/index.ts",
+        "tsConfig": "libs/shared/distributors/data-access/tsconfig.lib.json",
+        "assets": ["libs/shared/distributors/data-access/*.md"]
+      }
+    }
+  }
+}

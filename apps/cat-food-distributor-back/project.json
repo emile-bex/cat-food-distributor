@@ -20,7 +20,7 @@
         }
       }
     },
-    "typeorm" : {
+    "typeorm": {
       "command": "ts-node -r tsconfig-paths/register --project {projectRoot}/tsconfig.json ./node_modules/.bin/typeorm-ts-node-commonjs -d {projectRoot}/typeorm.config.ts"
     },
     "schema:sync": {
@@ -46,6 +46,40 @@
     },
     "schema:drop": {
       "command": "nx run cat-food-distributor-back:typeorm schema:drop"
+    },
+    "build-migration-config": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/typeorm-migration",
+        "main": "{projectRoot}/typeorm.config.ts",
+        "tsConfig": "{projectRoot}/tsconfig.app.json",
+        "webpackConfig": "{projectRoot}/webpack.config.js"
+      }
+    },
+    "typeorm-generate-migrations": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "cwd": "{projectRoot}",
+        "commands": [
+          "typeorm -d ../../dist/cat-food-distributors-back/main.js migration:generate {projectRoot}/src/migrations/schema-update"
+        ]
+      },
+      "dependsOn": [
+        "build-migration-config"
+      ]
+    },
+    "printhello": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "echo hello"
+      }
     }
   }
 }

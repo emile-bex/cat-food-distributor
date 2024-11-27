@@ -1,0 +1,21 @@
+{
+  "name": "shared-food-schedules-data-access",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/food-schedules/data-access/src",
+  "projectType": "library",
+  "tags": [
+    "type:data-access"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/food-schedules/data-access",
+        "main": "libs/shared/food-schedules/data-access/src/index.ts",
+        "tsConfig": "libs/shared/food-schedules/data-access/tsconfig.lib.json",
+        "assets": ["libs/shared/food-schedules/data-access/*.md"]
+      }
+    }
+  }
+}

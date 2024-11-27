@@ -3,8 +3,7 @@ import { FoodServingsService } from '../food-servings/food-servings.service';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Distributor } from '@cat-food-distributor/entities';
-import { CreateDistributorDto, UpdateDistributorDto } from '@cat-food-distributor/dtos';
+import { Distributor,  CreateDistributorDto, UpdateDistributorDto } from '@cat-food-distributor/shared/distributors/data-access';
 
 @Injectable()
 export class DistributorsService {

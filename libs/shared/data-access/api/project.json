@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "shared-shared-data-access-api",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/data-access/api/src",
   "projectType": "library",
