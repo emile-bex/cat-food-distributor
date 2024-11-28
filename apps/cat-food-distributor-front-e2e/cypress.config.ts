@@ -6,8 +6,8 @@ export default defineConfig({
   e2e: {
     ...nxE2EPreset(__filename, {
       cypressDir: 'src',
-      webServerCommands: { default: 'nx run cat-food-distributors-front:start' },
-      ciWebServerCommand: 'nx run cat-food-distributors-front:serve-static',
+      webServerCommands: { default: 'nx run cat-food-distributor-front:start' },
+      ciWebServerCommand: 'nx run cat-food-distributor-front:serve-static',
     }),
     baseUrl: 'http://localhost:3000',
   },

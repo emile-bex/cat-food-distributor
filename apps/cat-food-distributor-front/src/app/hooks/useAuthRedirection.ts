@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useAppSelector, authSelectors } from '@cat-food-distributor/shared/data-access/store';
+import { useAppSelector } from '@cat-food-distributor/shared/data-access/store';
+import { authSelectors } from '@cat-food-distributor/shared/auth/data-access';
 
 export function useAuthRedirection() {
   const { replace } = useRouter();

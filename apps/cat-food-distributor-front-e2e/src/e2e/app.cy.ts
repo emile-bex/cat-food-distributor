@@ -1,6 +1,6 @@
 import { getGreeting } from '../support/app.po';
 
-describe('cat-food-distributors-front-e2e', () => {
+describe('cat-food-distributor-front-e2e', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {

@@ -1,11 +1,13 @@
 'use client';
 
 import {
-  foodSchedulesActions,
-  foodSchedulesSelectors,
   useAppDispatch,
   useAppSelector
 } from '@cat-food-distributor/shared/data-access/store';
+import {
+  foodSchedulesActions,
+  foodSchedulesSelectors
+} from '@cat-food-distributor/shared/food-schedules/data-access';
 import { useEffect } from 'react';
 import { assertIsDefined } from '../../utils/misc/asserts';
 import { FoodSchedules } from './FoodSchedules';

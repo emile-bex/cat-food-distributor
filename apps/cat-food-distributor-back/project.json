@@ -21,16 +21,24 @@
       }
     },
     "typeorm": {
-      "command": "ts-node -r tsconfig-paths/register --project {projectRoot}/tsconfig.json ./node_modules/.bin/typeorm-ts-node-commonjs -d {projectRoot}/typeorm.config.ts"
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "typeorm -d dist/apps/typeorm-migration/main.js"
+        ]
+      },
+      "dependsOn": [
+        "build"
+      ]
     },
     "schema:sync": {
       "command": "nx run cat-food-distributor-back:typeorm schema:sync"
     },
     "migration:generate": {
-      "command": "nx run cat-food-distributor-back:typeorm migration:generate {projectRoot}/src/migrations/schema-update"
+      "command": "nx run cat-food-distributor-back:typeorm migration:generate {projectRoot}/src/db/migrations/schema-update"
     },
     "migration:create": {
-      "command": "nx run cat-food-distributor-back:typeorm migration:create {projectRoot}/src/migrations/schema-update"
+      "command": "nx run cat-food-distributor-back:typeorm migration:create {projectRoot}/src/db/migrations/schema-update"
     },
     "migration:show": {
       "command": "nx run cat-food-distributor-back:typeorm migration:show"
@@ -46,40 +54,6 @@
     },
     "schema:drop": {
       "command": "nx run cat-food-distributor-back:typeorm schema:drop"
-    },
-    "build-migration-config": {
-      "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "outputPath": "dist/apps/typeorm-migration",
-        "main": "{projectRoot}/typeorm.config.ts",
-        "tsConfig": "{projectRoot}/tsconfig.app.json",
-        "webpackConfig": "{projectRoot}/webpack.config.js"
-      }
-    },
-    "typeorm-generate-migrations": {
-      "executor": "nx:run-commands",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "options": {
-        "cwd": "{projectRoot}",
-        "commands": [
-          "typeorm -d ../../dist/cat-food-distributors-back/main.js migration:generate {projectRoot}/src/migrations/schema-update"
-        ]
-      },
-      "dependsOn": [
-        "build-migration-config"
-      ]
-    },
-    "printhello": {
-      "executor": "nx:run-commands",
-      "outputs": [],
-      "options": {
-        "command": "echo hello"
-      }
     }
   }
 }
