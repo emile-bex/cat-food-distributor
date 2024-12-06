@@ -1,32 +1,24 @@
 'use client';
 
-import {
-  useAppDispatch,
-  useAppSelector
-} from '@cat-food-distributor/shared/data-access/store';
-import {
-  foodSchedulesActions,
-  foodSchedulesSelectors
-} from '@cat-food-distributor/shared/food-schedules/data-access';
-import { useEffect } from 'react';
-import { assertIsDefined } from '../../utils/misc/asserts';
-import { FoodSchedules } from './FoodSchedules';
+import { assertIsDefined } from '@cat-food-distributor/shared/util/asserts';
+import { FoodScheduleList } from './FoodSchedules/FoodScheduleList';
 import { Spinner } from '../components';
+import { useFoodSchedules } from './FoodSchedules/useFoodSchedules';
+import { Typography } from '@mui/material';
+import { FoodScheduleItem } from './FoodSchedules/FoodScheduleItem';
 
 export function Home() {
-  const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(foodSchedulesSelectors.selectIsLoading);
-  const error = useAppSelector(foodSchedulesSelectors.selectError);
-  const foodSchedules = useAppSelector(foodSchedulesSelectors.selectFoodSchedules);
-
-  useEffect(() => {
-    if (!foodSchedules) {
-      dispatch(foodSchedulesActions.findAllFoodSchedulesRequested());
-    }
-  }, [dispatch, foodSchedules]);
+  const {
+    foodSchedules,
+    toggleFoodSchedule,
+    updateFoodSchedule,
+    deleteFoodSchedule,
+    isLoading,
+    error
+  } = useFoodSchedules();
 
   if (error) {
-    return <div>{error}</div>;
+    return <Typography>{error}</Typography>;
   }
 
   if (!foodSchedules || isLoading) {
@@ -35,5 +27,19 @@ export function Home() {
 
   assertIsDefined(foodSchedules);
 
-  return <FoodSchedules foodSchedules={foodSchedules} />;
+  const foodSchedulesList = foodSchedules.map((foodSchedule) => (
+      <FoodScheduleItem
+        key={foodSchedule.id}
+        foodSchedule={foodSchedule}
+        onActivateClick={() => toggleFoodSchedule(foodSchedule.id, foodSchedule.isActive)}
+        onEditClick={() => updateFoodSchedule(foodSchedule.id, foodSchedule.cron)}
+        onDeleteClick={() => {
+          deleteFoodSchedule(foodSchedule.id);
+        }}
+      />
+    ))
+  ;
+
+
+  return <FoodScheduleList foodSchedules={foodSchedulesList} />;
 }

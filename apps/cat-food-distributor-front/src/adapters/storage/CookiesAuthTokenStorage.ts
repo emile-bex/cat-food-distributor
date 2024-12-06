@@ -1,4 +1,4 @@
-import { IAuthTokenStorage } from '@cat-food-distributor/shared/data-access/store';
+import { IAuthTokenStorage } from '@cat-food-distributor/shared/auth/data-access';
 import { getTokenFromCookies, removeTokenFromCookies, setTokenIntoCookies } from '../../services/authToken';
 
 export class CookiesAuthTokenStorage implements IAuthTokenStorage {

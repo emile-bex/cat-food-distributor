@@ -13,5 +13,6 @@ export default function Auth() {
   if (isLoading) {
     return <Spinner />;
   }
+
   return <><QRScanner /><Alert severity="error">{error}</Alert></>;
 };

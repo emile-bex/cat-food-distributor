@@ -3,10 +3,10 @@ import { FoodSchedule } from '../entities';
 
 export class UpdateFoodScheduleDto {
   @IsBoolean()
-  isActive: boolean;
+  isActive?: boolean;
 
   @IsBoolean()
-  cron: string;
+  cron?: string;
 }
 
 export class UpdateFoodScheduleResponse {

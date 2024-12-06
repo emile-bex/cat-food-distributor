@@ -1,48 +1,26 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import {
-  AuthDto,
-  CreateFoodScheduleDto,
-  CreateFoodScheduleResponse,
-  UpdateFoodScheduleDto, UpdateFoodScheduleResponse, DeleteFoodScheduleResponse,
-  FindAllFoodSchedulesResponse
-} from '@cat-food-distributor/dtos';
+import axios, { AxiosInstance } from 'axios';
 import { addAxiosInterceptors } from './interceptor';
-import { AuthResponse } from '@cat-food-distributor/dtos';
 
 export class Api {
-  private instance: AxiosInstance;
+  private static instance: AxiosInstance;
 
-  constructor(baseUrl: string | undefined, getToken: () => Promise<string | null>) {
-    this.instance = axios.create({
-        baseURL: baseUrl,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+  private static createInstance(baseUrl: string | undefined, getToken: () => Promise<string | null>) {
+      this.instance = axios.create({
+          baseURL: baseUrl,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          }
         }
-      }
-    );
+      );
 
-    addAxiosInterceptors(this.instance, getToken);
+      addAxiosInterceptors(this.instance, getToken);
   }
 
-
-  auth(authDto: AuthDto): Promise<AxiosResponse<AuthResponse>> {
-    return this.instance.post('auth', authDto);
-  }
-
-  findAllFoodSchedules(): Promise<AxiosResponse<FindAllFoodSchedulesResponse>> {
-    return this.instance.get('food-schedules');
-  }
-
-  createFoodSchedule(createFoodScheduleDto: CreateFoodScheduleDto): Promise<AxiosResponse<CreateFoodScheduleResponse>> {
-    return this.instance.post('food-schedules', createFoodScheduleDto);
-  }
-
-  updateFoodSchedule(foodScheduleId: string, updateFoodScheduleDto: UpdateFoodScheduleDto): Promise<AxiosResponse<UpdateFoodScheduleResponse>> {
-    return this.instance.patch(`food-schedules/${foodScheduleId}`, updateFoodScheduleDto);
-  }
-
-  deleteFoodSchedule(foodScheduleId: string): Promise<AxiosResponse<DeleteFoodScheduleResponse>> {
-    return this.instance.delete(`food-schedule/${foodScheduleId}`);
+  static getInstance(baseUrl: string | undefined, getToken: () => Promise<string | null>) {
+    if (!this.instance) {
+      this.createInstance(baseUrl, getToken);
+    }
+    return this.instance
   }
 }

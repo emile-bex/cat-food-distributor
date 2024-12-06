@@ -1,0 +1,21 @@
+{
+  "name": "shared-util-asserts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/util/asserts/src",
+  "projectType": "library",
+  "tags": [
+    "type:util"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/util/asserts",
+        "main": "libs/shared/util/asserts/src/index.ts",
+        "tsConfig": "libs/shared/util/asserts/tsconfig.lib.json",
+        "assets": ["libs/shared/util/asserts/*.md"]
+      }
+    }
+  }
+}

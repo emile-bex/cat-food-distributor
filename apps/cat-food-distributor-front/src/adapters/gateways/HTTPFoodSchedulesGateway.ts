@@ -1,29 +1,36 @@
 import {
   CreateFoodScheduleDto,
-  CreateFoodScheduleResponse, DeleteFoodScheduleResponse,
-  FindAllFoodSchedulesResponse, UpdateFoodScheduleDto, UpdateFoodScheduleResponse
-} from '@cat-food-distributor/dtos';
-import { Api } from '../../services/api';
-import { IFoodSchedulesGateway } from '@cat-food-distributor/shared/data-access/store';
+  UpdateFoodScheduleDto,
+  IFoodSchedulesGateway,
+  FoodSchedulesApi
+} from '@cat-food-distributor/shared/food-schedules/data-access';
+import { getApiInstance } from '../../services/api';
 
 export class HTTPFoodSchedulesGateway implements IFoodSchedulesGateway {
-  async findAllFoodSchedules(): Promise<FindAllFoodSchedulesResponse> {
-    const { data } = await Api.findAllFoodSchedules();
+  private foodSchedulesApi;
+
+  constructor() {
+    const instance = getApiInstance();
+    this.foodSchedulesApi = new FoodSchedulesApi(instance);
+  }
+
+  async findAllFoodSchedules() {
+    const { data } = await  this.foodSchedulesApi.findAllFoodSchedules();
     return data;
   }
 
-  async createFoodSchedule(createFoodScheduleDto: CreateFoodScheduleDto): Promise<CreateFoodScheduleResponse> {
-    const { data } = await Api.createFoodSchedule(createFoodScheduleDto);
+  async createFoodSchedule(createFoodScheduleDto: CreateFoodScheduleDto) {
+    const { data } = await this.foodSchedulesApi.createFoodSchedule(createFoodScheduleDto);
     return data;
   }
 
-  async updateFoodSchedule(foodScheduleId: string, updateFoodScheduleDto: UpdateFoodScheduleDto): Promise<UpdateFoodScheduleResponse> {
-    const { data } = await Api.updateFoodSchedule(foodScheduleId, updateFoodScheduleDto);
+  async updateFoodSchedule(foodScheduleId: string, updateFoodScheduleDto: UpdateFoodScheduleDto) {
+    const { data } = await this.foodSchedulesApi.updateFoodSchedule(foodScheduleId, updateFoodScheduleDto);
     return data;
   }
 
-  async deleteFoodSchedule(foodScheduleId: string): Promise<DeleteFoodScheduleResponse> {
-    const { data } = await Api.deleteFoodSchedule(foodScheduleId);
+  async deleteFoodSchedule(foodScheduleId: string) {
+    const { data } = await this.foodSchedulesApi.deleteFoodSchedule(foodScheduleId);
     return data;
   }
 }

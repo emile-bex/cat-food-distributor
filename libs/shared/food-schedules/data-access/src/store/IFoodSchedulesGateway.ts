@@ -2,8 +2,10 @@ import {
   CreateFoodScheduleDto,
   CreateFoodScheduleResponse,
   DeleteFoodScheduleResponse,
-  FindAllFoodSchedulesResponse, UpdateFoodScheduleDto, UpdateFoodScheduleResponse
-} from '@cat-food-distributor/shared/food-schedules/data-access';
+  FindAllFoodSchedulesResponse,
+  UpdateFoodScheduleDto,
+  UpdateFoodScheduleResponse
+} from '../dtos';
 
 export interface IFoodSchedulesGateway {
   findAllFoodSchedules(): Promise<FindAllFoodSchedulesResponse>;

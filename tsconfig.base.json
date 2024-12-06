@@ -35,6 +35,12 @@
       ],
       "@cat-food-distributor/shared/food-servings/data-access": [
         "libs/shared/food-servings/data-access/src/index.ts"
+      ],
+      "@cat-food-distributor/shared/util/asserts": [
+        "libs/shared/util/asserts/src/index.ts"
+      ],
+      "@cat-food-distributor/shared/util/types": [
+        "libs/shared/util/types/src/index.ts"
       ]
     }
   },
