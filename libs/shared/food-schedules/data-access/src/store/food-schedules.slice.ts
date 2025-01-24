@@ -32,6 +32,22 @@ export const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload.error;
     },
+    createFoodScheduleRequested(state, _action: PayloadAction<{ cron: string }>) {
+      state.isLoading = true;
+      state.error = null;
+    },
+    createFoodScheduleSucceeded(state, action: PayloadAction<{ createdFoodSchedule: FoodSchedule }>) {
+      assertIsDefined(state.foodSchedules);
+
+      const updatedFoodSchedules = [...state.foodSchedules, action.payload.createdFoodSchedule];
+      state.isLoading = false;
+      state.foodSchedules = updatedFoodSchedules;
+      state.error = null;
+    },
+    createFoodScheduleFailed(state, action) {
+      state.isLoading = false;
+      state.error = action.payload.error;
+    },
     updateFoodScheduleRequested(state, _action: PayloadAction<{ id: string } & ({ cron?: string } | {
       isActive: boolean
     })>) {
@@ -65,7 +81,7 @@ export const slice = createSlice({
       });
 
       state.isLoading = false;
-      state.foodSchedules.splice(indexToDelete)
+      state.foodSchedules.splice(indexToDelete);
       state.error = null;
     },
     deleteFoodScheduleFailed(state, action) {

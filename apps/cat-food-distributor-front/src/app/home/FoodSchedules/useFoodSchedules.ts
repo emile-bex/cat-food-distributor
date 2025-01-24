@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch, useAppSelector } from '@cat-food-distributor/shared/data-access/store';
 import {
   FoodSchedule,
@@ -7,6 +9,7 @@ import {
 import { useCallback, useEffect } from 'react';
 import { useDialogs } from '@toolpad/core/useDialogs';
 import { EditFoodScheduleDialog } from './Dialogs/EditFoodScheduleDialog';
+import { CreateFoodScheduleDialog } from './Dialogs/CreateFoodScheduleDialog';
 
 export function useFoodSchedules() {
   const dispatch = useAppDispatch();
@@ -22,6 +25,15 @@ export function useFoodSchedules() {
     }
   }, [dispatch, foodSchedules]);
 
+  const createFoodSchedule = useCallback(async () => {
+    const createdCron = await dialogs.open(CreateFoodScheduleDialog);
+
+    if (createdCron) {
+      dispatch(foodSchedulesActions.createFoodScheduleRequested({ cron: createdCron }));
+    }
+
+  }, [dialogs, dispatch]);
+
   const toggleFoodSchedule = useCallback((id: string, isActive: boolean) => {
     dispatch(foodSchedulesActions.updateFoodScheduleRequested({ id, isActive: !isActive }));
   }, [dispatch]);
@@ -29,10 +41,10 @@ export function useFoodSchedules() {
   const updateFoodSchedule = useCallback(async (id: string, cron: string) => {
     const updatedCron = await dialogs.open(EditFoodScheduleDialog, {
       id,
-      cron,
+      cron
     });
 
-    if(updatedCron) {
+    if (updatedCron) {
       dispatch(foodSchedulesActions.updateFoodScheduleRequested({ id, cron: updatedCron }));
     }
 
@@ -41,12 +53,12 @@ export function useFoodSchedules() {
   const deleteFoodSchedule = useCallback(async (id: string) => {
     const confirmed = await dialogs.confirm(`Are you sure you want to delete schedule ${id}?`, {
       okText: 'Delete',
-      cancelText: 'Cancel',
+      cancelText: 'Cancel'
     });
     if (confirmed) {
       dispatch(foodSchedulesActions.deleteFoodScheduleRequested({ id }));
     }
   }, [dialogs, dispatch]);
 
-  return { foodSchedules, toggleFoodSchedule, updateFoodSchedule, deleteFoodSchedule, isLoading, error };
+  return { foodSchedules, createFoodSchedule, toggleFoodSchedule, updateFoodSchedule, deleteFoodSchedule, isLoading, error };
 }

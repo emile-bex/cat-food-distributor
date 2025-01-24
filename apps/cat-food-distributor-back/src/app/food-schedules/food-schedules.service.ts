@@ -89,7 +89,7 @@ export class FoodSchedulesService implements OnModuleInit {
     });
   }
 
-  create(createFoodScheduleDto: CreateFoodScheduleDto) {
+  create(distributorId: string, createFoodScheduleDto: CreateFoodScheduleDto) {
     const foodScheduleToCreate = this.foodScheduleRepository.create(createFoodScheduleDto);
     return this.foodScheduleRepository.save(foodScheduleToCreate);
   }

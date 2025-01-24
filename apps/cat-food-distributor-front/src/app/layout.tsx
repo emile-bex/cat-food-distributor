@@ -1,6 +1,6 @@
 'use client';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
-import { StyledComponentsRegistry } from './registry';
 import React from 'react';
 import { StoreProvider } from '@cat-food-distributor/shared/data-access/store';
 import { dependencies } from '../adapters';
@@ -12,11 +12,11 @@ export default function RootLayout({ children }: {
   return (
     <html lang="en">
     <body>
-    <StyledComponentsRegistry>
+    <AppRouterCacheProvider>
       <StoreProvider dependencies={dependencies}>
         <DialogsProvider>{children}</DialogsProvider>
       </StoreProvider>
-    </StyledComponentsRegistry>
+    </AppRouterCacheProvider>
     </body>
     </html>
   );

@@ -1,15 +1,16 @@
-'use client';
-
 import { assertIsDefined } from '@cat-food-distributor/shared/util/asserts';
-import { FoodScheduleList } from './FoodSchedules/FoodScheduleList';
+import { FoodScheduleList } from './FoodSchedules/FoodScheduleList/FoodScheduleList';
 import { Spinner } from '../components';
 import { useFoodSchedules } from './FoodSchedules/useFoodSchedules';
-import { Typography } from '@mui/material';
-import { FoodScheduleItem } from './FoodSchedules/FoodScheduleItem';
+import { Container, Fab, Typography } from '@mui/material';
+import { FoodScheduleItem } from './FoodSchedules/FoodScheduleList/FoodScheduleItem/FoodScheduleItem';
+import { NotificationAlert } from '../components/NotificationAlert';
+import { Add } from '@mui/icons-material';
 
 export function Home() {
   const {
     foodSchedules,
+    createFoodSchedule,
     toggleFoodSchedule,
     updateFoodSchedule,
     deleteFoodSchedule,
@@ -17,12 +18,11 @@ export function Home() {
     error
   } = useFoodSchedules();
 
-  if (error) {
-    return <Typography>{error}</Typography>;
-  }
-
   if (!foodSchedules || isLoading) {
-    return <Spinner />;
+    return <>
+      <Spinner />
+      <NotificationAlert message={error} type="error" />
+    </>;
   }
 
   assertIsDefined(foodSchedules);
@@ -33,13 +33,17 @@ export function Home() {
         foodSchedule={foodSchedule}
         onActivateClick={() => toggleFoodSchedule(foodSchedule.id, foodSchedule.isActive)}
         onEditClick={() => updateFoodSchedule(foodSchedule.id, foodSchedule.cron)}
-        onDeleteClick={() => {
-          deleteFoodSchedule(foodSchedule.id);
-        }}
+        onDeleteClick={() => deleteFoodSchedule(foodSchedule.id)}
       />
     ))
   ;
 
 
-  return <FoodScheduleList foodSchedules={foodSchedulesList} />;
+  return <Container>
+    <FoodScheduleList foodSchedules={foodSchedulesList} />
+    <NotificationAlert message={error} type="error" />
+    <Fab color="primary" size="small">
+      <Add onClick={createFoodSchedule} />
+    </Fab>
+  </Container>;
 }

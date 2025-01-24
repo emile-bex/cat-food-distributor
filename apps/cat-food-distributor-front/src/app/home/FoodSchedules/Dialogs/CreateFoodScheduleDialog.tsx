@@ -3,27 +3,21 @@ import React, { useState } from 'react';
 import { DialogProps } from '@toolpad/core/useDialogs';
 import { CronSelector } from '../../../components/CronSelector';
 
-interface EditFoodScheduleDialogProps {
-  id: string;
-  cron: string;
-}
-
-export function EditFoodScheduleDialog({ open, onClose, payload }: DialogProps<EditFoodScheduleDialogProps, string | null>) {
-  const [updatedCron, setUpdatedCron] = useState(payload.cron);
+export function CreateFoodScheduleDialog({ open, onClose }: DialogProps<undefined, string | null>) {
+  const [newCron, setNewCron] = useState('');
 
   return (
     <Dialog
-      fullWidth={true}
       open={open}
       onClose={() => onClose(null)}
     >
-      <DialogTitle>Edit schedule</DialogTitle>
+      <DialogTitle>Create schedule</DialogTitle>
       <DialogContent>
-        <CronSelector value={updatedCron} setValue={setUpdatedCron} />
+        <CronSelector value={newCron} setValue={setNewCron} />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onClose(null)}>Cancel</Button>
-        <Button onClick={() => onClose(updatedCron)}>Update</Button>
+        <Button onClick={() => onClose(newCron)}>Update</Button>
       </DialogActions>
     </Dialog>
   );

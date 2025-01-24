@@ -1,18 +1,17 @@
-'use client';
-
 import { QRScanner } from './QRScanner';
-import { useAppSelector } from '@cat-food-distributor/shared/data-access/store';
-import { authSelectors } from '@cat-food-distributor/shared/auth/data-access';
 import { Spinner } from '../components';
-import { Alert } from '@mui/material';
+import { NotificationAlert } from '../components/NotificationAlert';
+import { useAuth } from './useAuth';
 
 export default function Auth() {
-  const isLoading = useAppSelector(authSelectors.selectIsLoading);
-  const error = useAppSelector(authSelectors.selectLoginError);
+  const { isLoading, error } = useAuth();
 
   if (isLoading) {
     return <Spinner />;
   }
 
-  return <><QRScanner /><Alert severity="error">{error}</Alert></>;
+  return (<>
+    <QRScanner />
+    <NotificationAlert message={error} type="error" />
+  </>);
 };

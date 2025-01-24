@@ -5,11 +5,12 @@ interface FoodSchedulesProps {
 }
 
 export function FoodScheduleList({
-                                foodSchedules,
-                              }: FoodSchedulesProps) {
+                                   foodSchedules
+                                 }: FoodSchedulesProps) {
   if (foodSchedules.length === 0) {
     return <Typography>No defined schedules</Typography>;
   }
+
 
   return (
     <Container>

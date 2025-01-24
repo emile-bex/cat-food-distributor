@@ -24,10 +24,7 @@ export class FoodSchedulesController {
 
   @Post()
   async create(@DistributorId() distributorId: string, @Body() createFoodScheduleDto: CreateFoodScheduleDto): Promise<CreateFoodScheduleResponse> {
-    if (distributorId !== createFoodScheduleDto.distributorId) {
-      throw new ForbiddenException();
-    }
-    const createdFoodSchedule = await this.foodSchedulesService.create(createFoodScheduleDto);
+    const createdFoodSchedule = await this.foodSchedulesService.create(distributorId, createFoodScheduleDto);
     this.foodSchedulesService.createJob(createdFoodSchedule);
 
     return { createdFoodSchedule };

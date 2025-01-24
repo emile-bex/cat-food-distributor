@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all, spawn, call } from 'typed-redux-saga';
-import { UseCaseConfigItem } from '../../store-types/src/types';
+import { UseCaseConfigItem } from '@cat-food-distributor/shared/data-access/store-types';
 import { useCasesConfigs } from './config';
 import { AppDependencies } from './dependencies';
 

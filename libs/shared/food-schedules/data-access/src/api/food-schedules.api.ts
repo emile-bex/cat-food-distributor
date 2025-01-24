@@ -25,7 +25,7 @@ export class FoodSchedulesApi {
   }
 
   deleteFoodSchedule(foodScheduleId: string): Promise<AxiosResponse<DeleteFoodScheduleResponse>> {
-    return this.instance.delete(`food-schedule/${foodScheduleId}`);
+    return this.instance.delete(`food-schedules/${foodScheduleId}`);
   }
 
 }

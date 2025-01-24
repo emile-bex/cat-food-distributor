@@ -8,6 +8,11 @@ export function selectToken(state: RootState) {
   return state.authentication.token;
 }
 
+export function selectDistributor(state: RootState) {
+  return state.authentication.token;
+}
+
+
 export function selectIsAuthenticated(state: RootState) {
   return !!selectToken(state);
 }

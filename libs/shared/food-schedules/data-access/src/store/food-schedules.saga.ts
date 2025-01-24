@@ -6,6 +6,9 @@ const {
   findAllFoodSchedulesRequested,
   findAllFoodSchedulesSucceeded,
   findAllFoodSchedulesFailed,
+  createFoodScheduleRequested,
+  createFoodScheduleSucceeded,
+  createFoodScheduleFailed,
   updateFoodScheduleRequested,
   updateFoodScheduleSucceeded,
   updateFoodScheduleFailed,
@@ -29,6 +32,28 @@ function* findAllFoodSchedulesRequestedSaga(action: ReturnType<typeof findAllFoo
     console.error(error);
     yield* put(
       findAllFoodSchedulesFailed({
+        error: 'An error has occurred'
+      })
+    );
+  }
+}
+
+function* createFoodScheduleRequestedSaga(action: ReturnType<typeof createFoodScheduleRequested>) {
+  try {
+    const dependencies: FoodSchedulesDependencies = yield getContext('dependencies');
+    const { foodSchedulesGateway } = dependencies;
+
+    const response = yield* call(() => foodSchedulesGateway.createFoodSchedule(action.payload));
+
+    yield* put(
+      createFoodScheduleSucceeded({
+        createdFoodSchedule: response.createdFoodSchedule
+      })
+    );
+  } catch (error) {
+    console.error(error);
+    yield* put(
+      createFoodScheduleFailed({
         error: 'An error has occurred'
       })
     );
@@ -85,6 +110,7 @@ function* deleteFoodScheduleRequestedSaga(action: ReturnType<typeof deleteFoodSc
 
 export function* saga() {
   yield* takeLatest(findAllFoodSchedulesRequested, findAllFoodSchedulesRequestedSaga);
+  yield* takeLatest(createFoodScheduleRequested, createFoodScheduleRequestedSaga);
   yield* takeLatest(updateFoodScheduleRequested, updateFoodScheduleRequestedSaga);
   yield* takeLatest(deleteFoodScheduleRequested, deleteFoodScheduleRequestedSaga);
 }

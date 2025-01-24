@@ -1,11 +1,13 @@
-import { IsBoolean } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { FoodSchedule } from '../entities';
 
 export class UpdateFoodScheduleDto {
   @IsBoolean()
+  @IsOptional()
   isActive?: boolean;
 
-  @IsBoolean()
+  @IsString()
+  @IsOptional()
   cron?: string;
 }
 

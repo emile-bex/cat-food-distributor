@@ -14,25 +14,9 @@ const nextConfig = {
   },
 
   compiler: {
-    // For other options, see https://styled-components.com/docs/tooling#babel-plugin
-    styledComponents: {
-      ssr: true,
-    }
+    // For other options, see https://nextjs.org/docs/architecture/nextjs-compiler#emotion
+    emotion: true,
   },
-  transpilePackages: [
-    '@mui/material',
-    '@mui/system',
-    '@mui/icons-material'
-  ],
-  webpack: (
-    config
-  ) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@mui/styled-engine': '@mui/styled-engine-sc'
-    };
-    return config;
-  }
 };
 
 const plugins = [
